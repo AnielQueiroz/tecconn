@@ -31,7 +31,7 @@ Este User Story é necessário para subsidiar os User Stories e Requisitos Funci
     "startDate": "2025-12-07",
     "endDate": "2025-12-07",
     "startTime": "16:00:00",
-    "endTime": "23:00:00
+    "endTime": "23:00:00"
   }
 - **Resposta**:
   ```json
