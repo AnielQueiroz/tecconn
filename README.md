@@ -48,7 +48,7 @@ Este User Story é necessário para subsidiar os User Stories e Requisitos Funci
   }
 
 ### Listagem de todos os eventos
-- **Endpoint**: `POST /api/v1/events`
+- **Endpoint**: `GET /api/v1/events`
 - **Descrição**: Lista todos os eventos existentes.
 - **Resposta**:
   ```json
