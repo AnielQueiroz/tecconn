@@ -36,12 +36,15 @@ Este User Story é necessário para subsidiar os User Stories e Requisitos Funci
 - **Resposta**:
   ```json
   {
-    "id": 1,
-    "name": "CodeCraft Summit 2025",
-    "prettyName": "codecraft-summit-2025",
+    "eventId": 7,
+    "title": "Intensivão de Java - O maior do ano",
+    "prettyName": "intensivão-de-java---o-maior-do-ano",
     "location": "Online",
     "price": 0.0,
-    "startDate": "2025-03-16"
+    "startDate": "2025-12-07",
+    "endDate": "2025-12-07",
+    "startTime": "16:00:00",
+    "endTime": "23:00:00"
   }
 
 ### Listagem de todos os eventos
@@ -49,14 +52,30 @@ Este User Story é necessário para subsidiar os User Stories e Requisitos Funci
 - **Descrição**: Lista todos os eventos existentes.
 - **Resposta**:
   ```json
-  {
-    "id": 1,
-    "name": "CodeCraft Summit 2025",
-    "prettyName": "codecraft-summit-2025",
-    "location": "Online",
-    "price": 0.0,
-    "startDate": "2025-03-16"
-  }
+  [
+    {
+      "eventId": 5,
+      "title": "Evento do Nenel",
+      "prettyName": "evento-do-nenel",
+      "location": "Online",
+      "price": 0.0,
+      "startDate": "2025-08-07",
+      "endDate": "2025-08-07",
+      "startTime": "18:00:00",
+      "endTime": "23:00:00"
+    },
+    {
+      "eventId": 7,
+        "title": "Intensivão de Java - O maior do ano",
+        "prettyName": "intensivão-de-java---o-maior-do-ano",
+        "location": "Online",
+        "price": 0.0,
+        "startDate": "2025-12-07",
+        "endDate": "2025-12-07",
+        "startTime": "16:00:00",
+        "endTime": "23:00:00"
+    },
+  ]
 
 ### Inscrição no evento
 - **Endpoint**: `POST /api/v1/subscriptions/create/{prettyName}`
@@ -67,6 +86,28 @@ Este User Story é necessário para subsidiar os User Stories e Requisitos Funci
     "name": "Aniel Queiroz",
     "email": "anielqsilva@gmail.com"
   }
+- **Resposta**: 
+  ```json
+  {
+    "subscriptionNumber": 4,
+    "event": {
+        "eventId": 7,
+        "title": "Intensivão de Java - O maior do ano",
+        "prettyName": "intensivão-de-java---o-maior-do-ano",
+        "location": "Online",
+        "price": 0.0,
+        "startDate": "2025-12-07",
+        "endDate": "2025-12-07",
+        "startTime": "16:00:00",
+        "endTime": "23:00:00"
+    },
+    "subscriber": {
+        "id": 7,
+        "name": "Aniel Queiroz",
+        "email": "anielqsilva@gmail.com"
+    },
+    "indication": null
+  }
 
 ### Listagem de um evento pelo seu Pretty Name
 - **Endpoint**: `POST /api/v1/events/{prettyName}`
@@ -74,26 +115,29 @@ Este User Story é necessário para subsidiar os User Stories e Requisitos Funci
 - **Resposta**:
   ```json
   {
-    "id": 1,
-    "name": "CodeCraft Summit 2025",
-    "prettyName": "codecraft-summit-2025",
+    "eventId": 7,
+    "title": "Intensivão de Java - O maior do ano",
+    "prettyName": "intensivão-de-java---o-maior-do-ano",
     "location": "Online",
     "price": 0.0,
-    "startDate": "2025-03-16"
+    "startDate": "2025-12-07",
+    "endDate": "2025-12-07",
+    "startTime": "16:00:00",
+    "endTime": "23:00:00"
   }
 
 ## Configuração do Projeto
 ### Pré-requisitos
-- **Banco de dados: MySQL em Docker:** https://docs.docker.com/desktop/
-- **MySQL Workbench para você poder manipular seu banco de Dados:** https://dev.mysql.com/downloads/installer/
-- **Heidi SQL (Alternativa mais leve para o MySQL Workbench):** https://www.heidisql.com/download.php
+- **Banco de dados: MySQL em Docker**: https://docs.docker.com/desktop/
+- **MySQL Workbench para você poder manipular seu banco de Dados**: https://dev.mysql.com/downloads/installer/
+- **Heidi SQL (Alternativa mais leve para o MySQL Workbench)**: https://www.heidisql.com/download.php
 - **Java 21**
 - **IDE de sua escolha**
 
 ## Recursos
-- **Script da criação do banco de dados:** https://file.notion.so/f/f/08f749ff-d06d-49a8-a488-9846e081b224/e2a29b02-60d6-466c-8778-95aacb09399e/db_events.sql?table=block&id=0dd3ac4f-7f14-482c-bcd1-f0b2cf00dcfb&spaceId=08f749ff-d06d-49a8-a488-9846e081b224&expirationTimestamp=1740096000000&signature=ec5BdVp0BtK-MWNIvORdKOrMz-qOfKwqukZ3Qu8TrG8&downloadName=db_events.sql
-- **Spring Initializer (para você poder criar seu primeiro projeto Spring):** https://start.spring.io/
-- **Docker Compose:** 
+- **Script da criação do banco de dados**: https://file.notion.so/f/f/08f749ff-d06d-49a8-a488-9846e081b224/e2a29b02-60d6-466c-8778-95aacb09399e/db_events.sql?table=block&id=0dd3ac4f-7f14-482c-bcd1-f0b2cf00dcfb&spaceId=08f749ff-d06d-49a8-a488-9846e081b224&expirationTimestamp=1740096000000&signature=ec5BdVp0BtK-MWNIvORdKOrMz-qOfKwqukZ3Qu8TrG8&downloadName=db_events.sql
+- **Spring Initializer (para você poder criar seu primeiro projeto Spring)**: https://start.spring.io/
+- **Docker Compose**: 
 ```yaml
 services:
   mysql:
