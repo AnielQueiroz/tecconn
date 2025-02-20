@@ -110,7 +110,7 @@ Este User Story é necessário para subsidiar os User Stories e Requisitos Funci
   }
 
 ### Listagem de um evento pelo seu Pretty Name
-- **Endpoint**: `POST /api/v1/events/{prettyName}`
+- **Endpoint**: `GET /api/v1/events/{prettyName}`
 - **Descrição**: Lista um evento pelo seu Pretty Name.
 - **Resposta**:
   ```json
