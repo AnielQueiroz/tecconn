@@ -138,19 +138,19 @@ Este User Story é necessário para subsidiar os User Stories e Requisitos Funci
 - **Script da criação do banco de dados**: https://file.notion.so/f/f/08f749ff-d06d-49a8-a488-9846e081b224/e2a29b02-60d6-466c-8778-95aacb09399e/db_events.sql?table=block&id=0dd3ac4f-7f14-482c-bcd1-f0b2cf00dcfb&spaceId=08f749ff-d06d-49a8-a488-9846e081b224&expirationTimestamp=1740096000000&signature=ec5BdVp0BtK-MWNIvORdKOrMz-qOfKwqukZ3Qu8TrG8&downloadName=db_events.sql
 - **Spring Initializer (para você poder criar seu primeiro projeto Spring)**: https://start.spring.io/
 - **Docker Compose**: 
-```yaml
-services:
-  mysql:
-    image: mysql:8.4
-    restart: always
-    container_name: mysql-tecconn
-    environment:
-      - MYSQL_ROOT_PASSWORD=mysql
-    ports: 
-      - '3336:3306'
-    networks: 
-      - tecconn-network
-networks:
-  tecconn-network:
-    driver: bridge
+  ```yaml
+    services:
+      mysql:
+        image: mysql:8.4
+        restart: always
+        container_name: mysql-tecconn
+        environment:
+          - MYSQL_ROOT_PASSWORD=mysql
+        ports: 
+          - '3336:3306'
+        networks: 
+          - tecconn-network
+    networks:
+      tecconn-network:
+        driver: bridge
 
