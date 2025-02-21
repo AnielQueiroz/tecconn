@@ -16,13 +16,19 @@ import pro.anieldev.tecconn.repository.UserRepo;
 @Service
 public class SubscriptionService {
     @Autowired
-    private EventRepo eventRepo;
+    private final EventRepo eventRepo;
 
     @Autowired
-    private UserRepo userRepo;
+    private final UserRepo userRepo;
 
     @Autowired
-    private SubscriptionRepo subsRepo;
+    private final SubscriptionRepo subsRepo;
+
+    public SubscriptionService(EventRepo eventRepo, UserRepo userRepo, SubscriptionRepo subsRepo) {
+        this.eventRepo = eventRepo;
+        this.userRepo = userRepo;
+        this.subsRepo = subsRepo;
+    }
 
     public SubscriptionResponse createNewSubscription(String eventName, User user, Integer userId) {
         // Recuperar o evento pelo nome
@@ -50,13 +56,7 @@ public class SubscriptionService {
         Subscription subs = new Subscription();
         subs.setEvent(event);
         subs.setSubscriber(userRec);
-
-        // Definir o indicador apenas se ele existir e se não for o proprio usuario
-        if (indicator != null && !indicator.getId().equals(userRec.getId())) {
-            subs.setIndication(indicator);
-        } else {
-            subs.setIndication(null);
-        }
+        subs.setIndication(indicator);
 
         // Verificar se o usuário já está inscrito no evento
         Subscription alreadySubcribed = subsRepo.findByEventAndSubscriber(event, userRec);
