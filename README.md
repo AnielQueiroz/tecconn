@@ -89,24 +89,24 @@ Este User Story é necessário para subsidiar os User Stories e Requisitos Funci
 - **Resposta**: 
   ```json
   {
-    "subscriptionNumber": 4,
-    "event": {
-        "eventId": 7,
-        "title": "Intensivão de Java - O maior do ano",
-        "prettyName": "intensivão-de-java---o-maior-do-ano",
-        "location": "Online",
-        "price": 0.0,
-        "startDate": "2025-12-07",
-        "endDate": "2025-12-07",
-        "startTime": "16:00:00",
-        "endTime": "23:00:00"
-    },
-    "subscriber": {
-        "id": 7,
-        "name": "Aniel Queiroz",
-        "email": "anielqsilva@gmail.com"
-    },
-    "indication": null
+    "subscriptionNumber": 11,
+    "designation": "https://anieldev.pro/intensivão-de-java---o-maior-do-ano/14"
+  }
+
+### Inscrição no evento por indicação
+- **Endpoint**: `POST /api/v1/subscriptions/create/{prettyName}/{userId}`
+- **Descrição**: Se inscreve em um evento atráves de um link de indicação.
+- **Requisição**:
+  ```json
+  {
+    "name": "Aniel Queiroz",
+    "email": "anielqsilva@gmail.com"
+  }
+- **Resposta**:
+  ```json
+  {
+    "subscriptionNumber": 11,
+    "designation": "https://anieldev.pro/intensivão-de-java---o-maior-do-ano/14"
   }
 
 ### Listagem de um evento pelo seu Pretty Name
