@@ -24,7 +24,7 @@ public class EventController {
         return service.getAllEvents();
     }
 
-    @GetMapping("/find-by-pretty-name/{prettyName}")
+    @GetMapping("/{prettyName}")
     public ResponseEntity<Event> getEventByPrettyName(@PathVariable String prettyName) {
         Event evt = service.getByPrettyName(prettyName);
 
