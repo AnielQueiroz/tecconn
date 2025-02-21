@@ -1,11 +1,11 @@
 package pro.anieldev.tecconn.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pro.anieldev.tecconn.dto.SubscriptionResponse;
 import pro.anieldev.tecconn.exception.EventNotFoundException;
 import pro.anieldev.tecconn.exception.SubscriptionConflictException;
+import pro.anieldev.tecconn.exception.UserIndicatorNotFoundException;
 import pro.anieldev.tecconn.model.Event;
 import pro.anieldev.tecconn.model.Subscription;
 import pro.anieldev.tecconn.model.User;
@@ -24,27 +24,47 @@ public class SubscriptionService {
     @Autowired
     private SubscriptionRepo subsRepo;
 
-    public SubscriptionResponse createNewSubscription(String eventName, User user) {
-        // recuperar o evento pelo nome
+    public SubscriptionResponse createNewSubscription(String eventName, User user, Integer userId) {
+        // Recuperar o evento pelo nome
         Event event = eventRepo.findByPrettyName(eventName);
         if (event == null) {
             throw new EventNotFoundException("Evento " + eventName + " não existe.");
         }
+
+        // Verificar se o usuário já existe no banco
         User userRec = userRepo.findByEmail(user.getEmail());
         if (userRec == null) {
             userRec = userRepo.save(user);
         }
 
+        // Verificar se o userId é null antes de buscar o indicador
+        User indicator = null;
+        if (userId != null) {
+            indicator = userRepo.findById(userId).orElse(null);
+            if (indicator == null) {
+                throw new UserIndicatorNotFoundException("O usuário que o indicou não existe.");
+            }
+        }
+
+        // Criar a inscrição
         Subscription subs = new Subscription();
         subs.setEvent(event);
         subs.setSubscriber(userRec);
 
-        Subscription alreadySubcribed = subsRepo.findByEventAndSubscriber(event, userRec);
+        // Definir o indicador apenas se ele existir e se não for o proprio usuario
+        if (indicator != null && !indicator.getId().equals(userRec.getId())) {
+            subs.setIndication(indicator);
+        } else {
+            subs.setIndication(null);
+        }
 
+        // Verificar se o usuário já está inscrito no evento
+        Subscription alreadySubcribed = subsRepo.findByEventAndSubscriber(event, userRec);
         if (alreadySubcribed != null) {
             throw new SubscriptionConflictException("Você já está inscrito neste evento.");
         }
 
+        // Salvar a inscrição
         Subscription res = subsRepo.save(subs);
 
         return new SubscriptionResponse(res.getSubscriptionNumber(), "https://anieldev.pro/" + res.getEvent().getPrettyName() + "/" + userRec.getId());
