@@ -2,6 +2,8 @@ package pro.anieldev.tecconn.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pro.anieldev.tecconn.dto.SubscriptionRankingByUser;
+import pro.anieldev.tecconn.dto.SubscriptionRankingItem;
 import pro.anieldev.tecconn.dto.SubscriptionResponse;
 import pro.anieldev.tecconn.exception.EventNotFoundException;
 import pro.anieldev.tecconn.exception.SubscriptionConflictException;
@@ -12,6 +14,9 @@ import pro.anieldev.tecconn.model.User;
 import pro.anieldev.tecconn.repository.EventRepo;
 import pro.anieldev.tecconn.repository.SubscriptionRepo;
 import pro.anieldev.tecconn.repository.UserRepo;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 public class SubscriptionService {
@@ -69,4 +74,27 @@ public class SubscriptionService {
 
         return new SubscriptionResponse(res.getSubscriptionNumber(), "https://anieldev.pro/" + res.getEvent().getPrettyName() + "/" + userRec.getId());
     }
+
+    public List<SubscriptionRankingItem> getCompleteRanking(String prettyName) {
+        Event event = eventRepo.findByPrettyName(prettyName);
+        if (event == null) {
+            throw new EventNotFoundException("Não foi possível gerar o ranking, esse evento " + prettyName +  "não existe.");
+        }
+
+        return subsRepo.generateRanking(event.getEventId());
+    }
+
+    public SubscriptionRankingByUser getRankingByUser(String prettyName, Integer userId) {
+        List<SubscriptionRankingItem> ranking = getCompleteRanking(prettyName);
+
+        SubscriptionRankingItem item = ranking.stream().filter(i-> i.userId().equals(userId)).findFirst().orElse(null);
+        if (item == null) {
+            throw new UserIndicatorNotFoundException("Não há inscrições para este usuário");
+        }
+
+        int position = IntStream.range(0, ranking.size()).filter(pos-> ranking.get(pos).userId().equals(userId)).findFirst().orElseThrow();
+
+        return new SubscriptionRankingByUser(item, position+1);
+    }
 }
+
