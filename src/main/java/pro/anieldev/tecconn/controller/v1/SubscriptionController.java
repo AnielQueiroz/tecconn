@@ -35,4 +35,23 @@ public class SubscriptionController {
 
         return ResponseEntity.badRequest().body(new ErrorMessage("Falha ao se inscrever no evento."));
     }
+
+    @GetMapping("/{prettyName}/ranking")
+    public ResponseEntity<?> generateRankingByEvent(@PathVariable String prettyName) {
+        try {
+            return ResponseEntity.ok(subsService.getCompleteRanking(prettyName).subList(0, 3));
+        } catch (EventNotFoundException ex) {
+            return ResponseEntity.status(404).body(new ErrorMessage("Evento não encontrado."));
+        }
+    }
+
+    @GetMapping("/{prettyName}/ranking/{userId}")
+    public ResponseEntity<?> getSubscriptionRankingByUser(@PathVariable String prettyName, @PathVariable Integer userId) {
+        try {
+            return ResponseEntity.ok(subsService.getRankingByUser(prettyName, userId));
+        } catch (UserIndicatorNotFoundException | EventNotFoundException ex) {
+            return ResponseEntity.status(404).body(new ErrorMessage(ex.getMessage()));
+        }
+    }
+
 }
