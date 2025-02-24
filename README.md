@@ -11,7 +11,7 @@ Este é um projeto back-end desenvolvido em Java Spring Boot para gerenciar even
 
 ## User Stories
 ### US00 - CRUD de Evento
-Este User Story é necessário para subsidiar os User Stories e Requisitos Funcionais existentes.
+Este User Story atende ao requisito funcional RF01 e RF02.
 
 - **Criação de um novo evento**
 - **Listagem de todos os eventos disponíveis**
@@ -124,6 +124,46 @@ Este User Story é necessário para subsidiar os User Stories e Requisitos Funci
     "endDate": "2025-12-07",
     "startTime": "16:00:00",
     "endTime": "23:00:00"
+  }
+
+### US01 - Gerar Ranking de Inscritos
+Este User Story atende ao requisito funcional RF03.
+- **Endpoint**: `GET /api/v1/subscriptions/{prettyName}/ranking`
+- **Descrição**: Lista um ranking de número de inscritos por indicação (ou seja, ordenado pela somatória de inscritos por indicação).
+- **Ideal**: O ranking deve exibir os 3 primeiros colocados.
+- **Resposta**:
+  ```json
+  [
+    {
+        "subscribers": 8,
+        "userId": 17,
+        "name": "Aniel Queiroz"
+    },
+    {
+        "subscribers": 4,
+        "userId": 11,
+        "name": "Gon"
+    },
+    {
+        "subscribers": 3,
+        "userId": 7,
+        "name": "Jackie Chan"
+    }
+  ]
+
+### Lista a Posição do Usuário no Ranking e a Quantidade de Seus Indicados
+Este User Story atende ao requisito funcional RF04.
+- **Endpoint**: `GET /api/v1/subscriptions/{prettyName}/ranking/{userId}`
+- **Descrição**: Lista a posição do usuário no ranking e o número de inscritos através dele.
+- **Resposta**:
+  ```json
+  {
+    "item": {
+        "subscribers": 8,
+        "userId": 17,
+        "name": "Aniel Queiroz"
+    },
+    "position": 1
   }
 
 ## Configuração do Projeto
